@@ -81,11 +81,8 @@ df = database.reset_index(drop='index')
 # Display the DataFrame
 # st.dataframe(df)
 
-# Fetch unique values from the column and sort them in descending order
-unique_values = sorted(database[column_to_search].unique(), reverse=True)
-
 # Add a text input for column selection
-column_to_search = st.selectbox("Select a column to search:", unique_values)
+column_to_search = st.selectbox("Select a column to search:", database.columns[1:])
 
 # Add a button to trigger the search
 search_button = st.button("Search")
@@ -97,4 +94,3 @@ if search_button:
         st.dataframe(database[["Time", column_to_search]].dropna().reset_index(drop='index'))
     else:
         st.warning(f"Column '{column_to_search}' not found in the DataFrame.")
-
