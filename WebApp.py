@@ -38,7 +38,7 @@ btn_lbl = 'Switch LED ON/OFF'
 button_clicked = st.button(btn_lbl)
 
 key = "LED_VAL"
-# Update session state if the button is clicked
+# Update session state only if the button is clicked
 if button_clicked:
     st.session_state.button_clicked = not st.session_state.button_clicked
 
@@ -49,6 +49,8 @@ if st.session_state.button_clicked:
 else:
     send_data_to_firebase({key: 0})
     st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
+
+
 
 # Display the current LED state fetched from Firebase
 st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
