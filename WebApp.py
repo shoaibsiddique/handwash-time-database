@@ -65,8 +65,12 @@ else:
 #-------------------------------------------------------------------------
 
 # Get the list of unique dates from the JSON keys and reverse the order
-dates_list = sorted(database.keys(), reverse=True)
-selected_date = st.selectbox("Select a date:", dates_list)
+dates_list = sorted([datetime.strptime(date, "%d-%a:%B:%Y") for date in database.keys()], reverse=True)
+# Convert datetime objects back to strings for the dropdown
+dates_list_str = [date.strftime("%d-%a:%B:%Y") for date in dates_list]
+
+# Create the dropdown with sorted dates
+selected_date = st.selectbox("Select a date:", dates_list_str)
 
 # Add a button to trigger the search
 search_button = st.button("Search")
