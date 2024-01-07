@@ -51,7 +51,10 @@ else:
         st.warning("The LED is currently OFF")
 
 # Display the current LED state fetched from Firebase
-# st.markdown(f'Current LED state from RPI: {current_led_state}')
+if current_led_state:
+    st.markdown(f'Current LED state is ON')
+else:
+     st.markdown(f'Current LED state is OFF')
 
 # -------------------------------------------------------------------------
 
