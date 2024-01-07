@@ -55,11 +55,11 @@ else:
     st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
 
 
-
-
 # Display the current LED state fetched from Firebase
-st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
+#st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
+
+'''
 # Caution message in red
 st.title("Refresh Button")
 caution_message = """
@@ -72,6 +72,8 @@ st.markdown(caution_message, unsafe_allow_html=True)
 if st.button("Refresh"):
     st.write("Refreshing...")
     restart_streamlit()
+'''
+
 
 st.title("Database of Handwashing Detection System")
 df = database.reset_index(drop='index')
@@ -79,8 +81,11 @@ df = database.reset_index(drop='index')
 # Display the DataFrame
 # st.dataframe(df)
 
+# Fetch unique values from the column and sort them in descending order
+unique_values = sorted(database[column_to_search].unique(), reverse=True)
+
 # Add a text input for column selection
-column_to_search = st.selectbox("Select a column to search:", database.columns[1:])
+column_to_search = st.selectbox("Select a column to search:", unique_values)
 
 # Add a button to trigger the search
 search_button = st.button("Search")
@@ -92,3 +97,4 @@ if search_button:
         st.dataframe(database[["Time", column_to_search]].dropna().reset_index(drop='index'))
     else:
         st.warning(f"Column '{column_to_search}' not found in the DataFrame.")
+
