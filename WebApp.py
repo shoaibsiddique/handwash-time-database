@@ -71,13 +71,19 @@ df = database.reset_index(drop='index')
 # Add a text input for column selection
 column_to_search = st.selectbox("Select a column to search:", database.columns[1:])
 
-# Add a button to trigger the search
-search_button = st.button("Search")
+# Fetch the latest data from Firebase when the search button is clicked
+if st.button("Search"):
+    # Get the selected date from the user
+    selected_date = st.date_input("Select a date:", datetime.now().date())
 
-# Perform search when the button is clicked
-if search_button:
-    if column_to_search in df.columns:
-        st.subheader(f"Search Results for {column_to_search}:")
-        st.dataframe(database[["Time", column_to_search]].dropna().reset_index(drop='index'))
+    # Fetch the latest data for the selected date from Firebase
+    # Assuming your Firebase structure includes a "Date" field
+    latest_data = db.reference("your_data_path").order_by_child("Date").equal_to(str(selected_date)).get()
+
+    if latest_data:
+        # Convert the latest data to a DataFrame and display it
+        latest_df = pd.DataFrame(list(latest_data.values()))
+        st.subheader(f"Search Results for {selected_date}:")
+        st.dataframe(latest_df)
     else:
-        st.warning(f"Column '{column_to_search}' not found in the DataFrame.")
+        st.warning(f"No data found for {selected_date}")
