@@ -52,9 +52,11 @@ else:
 
 # Display the current LED state fetched from Firebase
 if current_led_state:
-    st.markdown(f'Current LED state is ON')
+    st.success("The LED is currently ON")
+    #st.markdown(f'Current LED state is ON')
 else:
-     st.markdown(f'Current LED state is OFF')
+    st.warning("The LED is currently OFF")
+    #st.markdown(f'Current LED state is OFF')
 
 # -------------------------------------------------------------------------
 
