@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "handwash-detection-db-001",
+  "private_key_id": "01ed53660c123bbb3d94a008b187c0321a996cff",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCuZPOuzjDxeF9B\ncpbOsGfZ7AUiT+TdbGkWBIBD0kIvv2epU3RADMorNCpNAMEeRlb1DDrUG5tOmpnK\n81ky00eDVtKfsz0oHHTh6DJ3BHaeGa3f3wWKfm2YCk353IOcED1KGHXzYpixIiY2\nbeHTv6EgXFN9WolG26WwIzPfX0JpNSE3AgVJVerlJdMV9jXppNXd10UNOtWdSGFO\nF76PI78j2rs2UDY1Z5Qzs4W4hyksM6jbDz6b9sUwKbwnil1WxZIgJRivAPwZFb4V\nR3gLCyMRahXroiAmSniZpUSi+yYDPAmf+FoXYAGvHqKMC0UOhCRVk1jIDgkOjq+f\nU1EXN3hBAgMBAAECggEAMDxuBmizsuZ3enPGcK7sWqNknCP7Cp+kxVlDXP74HZrU\ngko5+klPVfncxWWzBLux65+RWf+0yl4Ksc7zWhKEUjiek1uRS9nrHl0KME9Eu+Ag\nbq6SKsdjas1W2gh7QpxfR3JSlZos37mxVha4gsgbOgcvdJmpJLc2MezauSrxBIYf\nXogxM0IHc86dRGfvyP5YFGvNY3mZ5Y+YNq+kd0G+qD2Oa9C9V1BcD1ad1MvcFsh0\ncHTMJ0meky/G7yP2w7Ogb7IwApWrWICX5eeJSkBzIi8YWT8N24CwO9hEnBKKs13b\nKOqZj7t8DMiCnt4OwKya+H5yTDfhdis82lwndkDh7QKBgQDh9v04IeSwp45L2mnv\nSFsM2lBRrm9SSbh6Ek+ruBlczq69I/foIVw+kqY/8Tyj0VeteoddGsJRaChlzgkC\neOx2r3sIUgwAhGIBnw2JPkvh6665TyxsfWy43vj1t2eQE+LK8mXENsIIFmuv8/6V\nbgQAICYKeJ0cwHHiNuqvLyWgOwKBgQDFkyaECP2jZk5twVQJfo8ZCR8RUgOhgQtE\nZW5Zx3XbsDBY1Qz5EuBXD0wZ/h6LeZxQcEnKFpjEUzh7+S02xiUVsAmitFodkk1X\ngbANI1m1K2frBLiZV2ZC8twXuXBwEthMWhVTV1vtP+NpHpJY9eFv2QuYPytcGUjA\nZHuH7eldswKBgQCjab5YcNJ1GseifZLs1BPcqKk7WP3ysZOy3Dk3w0y8PFBMQo3P\nFwkhy2Zlia1D/2n78Eeigm6S9tN4RFdprU+8yU0diFBbs2E5MPBWF3JDMPFL3EER\nOGd/DulWscs4e9kg0cnc64jI1oYMWlT7dfN4r8cy/WUJ3Pa/FN4F0P/R7wKBgDUH\nV9EccKdIsEg5GYsq0tGPZy1I6/yPHC0RZFrodDOwyGkvVboMXPZA/tYDJMOeslvM\np6F8Cyi2hXSQ3pfS+uUlSJDJA17og6W3Az+je1JrAgtMSxetI59Ye8ZKWWlbRX7I\ntuyVh/DXsvvl3rXN2OIiSUBlxAeGKcapsZY8PuSNAoGBAIE8fn8YNg8yUI4XHMS8\ny/Ru3hPkIuTq4yuoYB+DFBaJRShE/6S0PvgQdCxA0tAVhojrqYPbVfaeUlfekkfy\n1MkPVnzObtjfWoBnm2aijKNI+ikIjNnQDO4M5p5UFsr0mXbGiOetZz6gwl0qbqCU\niw852mIYcbde9hO1cHdKm4EZ\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-h9kl7@handwash-detection-db-001.iam.gserviceaccount.com",
+  "client_id": "101628112792715053119",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-h9kl7%40handwash-detection-db-001.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
