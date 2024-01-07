@@ -4,6 +4,7 @@ import os
 import sys
 from firebase_admin import db
 
+
 def restart_streamlit():
     os.execv(sys.executable, ['python'] + sys.argv)
 
@@ -12,15 +13,28 @@ def get_session_state():
     if 'button_clicked' not in st.session_state:
         st.session_state.button_clicked = False
 
+# Function to get the current LED state from Firebase
+def get_led_state_from_firebase():
+    ref = db.reference("/")
+    return ref.get().get("LED_VAL", 0)
+
 # Function to send data to Firebase Realtime Database
 def send_data_to_firebase(data):
     db.reference().update(data)
 
+# Function to create or get session state
+def get_session_state():
+    if 'button_clicked' not in st.session_state:
+        st.session_state.button_clicked = False
+
 # Get or create session state
 get_session_state()
 
+# Get the current LED state
+current_led_state = get_led_state_from_firebase()
+
+# Create a button to switch the LED state
 btn_lbl = 'Switch LED ON/OFF'
-# Create a button to light LED up
 button_clicked = st.button(btn_lbl)
 
 key = "LED_VAL"
@@ -30,11 +44,14 @@ if button_clicked:
 
 # Display a message based on the button state
 if st.session_state.button_clicked:
-    send_data_to_firebase({key:1})
+    send_data_to_firebase({key: 1})
     st.markdown('<p style="color: green;">The LED is currently ON</p>', unsafe_allow_html=True)
 else:
-    send_data_to_firebase({key:0})
+    send_data_to_firebase({key: 0})
     st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
+
+# Display the current LED state fetched from Firebase
+st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
 # Caution message in red
 st.title("Refresh Button")
