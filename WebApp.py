@@ -49,14 +49,14 @@ if button_clicked:
 # Display a message based on the button state
 if st.session_state.button_clicked:
     send_data_to_firebase({key: 1})
-    st.success("The LED is currently ON")
+    st.success("LED feature is enabled")
     #st.markdown('<p style="color: green;">The LED is currently ON</p>', unsafe_allow_html=True)
 else:
     # Only update the value if the button is clicked, else fetch the current state
     if button_clicked:
         send_data_to_firebase({key: 0})
 
-    st.warning("The LED is currently OFF")
+    st.warning("LED feature is disabled")
     #st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
 
 
