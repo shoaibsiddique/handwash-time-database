@@ -49,35 +49,51 @@ if button_clicked:
 # Display a message based on the button state
 if st.session_state.button_clicked:
     send_data_to_firebase({key: 1})
-    st.markdown('<p style="color: green;">The LED is currently ON</p>', unsafe_allow_html=True)
+    st.success("The LED is currently ON")
+    #st.markdown('<p style="color: green;">The LED is currently ON</p>', unsafe_allow_html=True)
 else:
     # Only update the value if the button is clicked, else fetch the current state
     if button_clicked:
         send_data_to_firebase({key: 0})
 
-    st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
+    st.warning("The LED is currently OFF")
+    #st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
 
 
 # Display the current LED state fetched from Firebase
 #st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
 
-#st.title("Database of Handwashing Detection System")
-df = database.reset_index(drop='index')
+# -------------------------------------------------------------------------
 
-# Display the DataFrame
-# st.dataframe(df)
+# Get the list of unique dates from the JSON keys and sort them as datetime objects
+dates_list = []
+for date in database.keys():
+    if date != "Time":  # Skip the key named "Time"
+        try:
+            dates_list.append(datetime.strptime(date, "%d-%a:%B:%Y"))
+        except ValueError:
+            st.error(f"Error parsing date: {date}. Skipping.")
 
-# Add a text input for column selection
-column_to_search = st.selectbox("Select a column to search:", database.columns[1:])
+# Sort the datetime objects and convert them back to strings for the dropdown
+dates_list = sorted(dates_list, reverse=True)
+dates_list_str = [date.strftime("%d-%a:%B:%Y") for date in dates_list]
+
+# Create the dropdown with sorted dates
+selected_date = st.selectbox("Select a date:", dates_list_str)
 
 # Add a button to trigger the search
 search_button = st.button("Search")
 
 # Perform search when the button is clicked
 if search_button:
-    if column_to_search in df.columns:
-        st.subheader(f"Search Results for {column_to_search}:")
-        st.dataframe(database[["Time", column_to_search]].dropna().reset_index(drop='index'))
+    # Fetch the latest data for the selected date from Firebase
+    latest_data = db.reference().child(selected_date).get()
+    
+    if latest_data:
+        # Convert the latest data to a DataFrame and display it
+        latest_df = pd.DataFrame(list(latest_data.items()), columns=["Time", "Value"])
+        st.subheader(f"Time Durations of Hand Wash Activity recorded for {selected_date}:")
+        st.dataframe(latest_df.style.set_table_styles([{'selector': 'table', 'props': [('max-width', '500px')]}]))
     else:
-        st.warning(f"Column '{column_to_search}' not found in the DataFrame.")
+        st.warning(f"No data found for {selected_date}")
