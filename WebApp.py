@@ -25,7 +25,8 @@ def send_data_to_firebase(data):
 # Function to create or get session state
 def get_session_state():
     if 'button_clicked' not in st.session_state:
-        st.session_state.button_clicked = False
+        st.session_state.button_clicked = get_led_state_from_firebase() == 1
+
 
 # Get or create session state
 get_session_state()
@@ -50,8 +51,6 @@ else:
     # Only update the value if the button is clicked, else fetch the current state
     if button_clicked:
         send_data_to_firebase({key: 0})
-    else:
-        st.session_state.button_clicked = get_led_state_from_firebase() == 1
 
     st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
 
