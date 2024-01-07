@@ -62,25 +62,14 @@ else:
 #st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
 
-#st.title("Database of Handwashing Detection System")
+st.title("Database of Handwashing Detection System")
 df = database.reset_index(drop='index')
 
-
-
-# Convert the date strings to datetime objects
-database['Datetime'] = pd.to_datetime(database.index, format='%d-%a:%B:%Y', errors='coerce')
-
-# Sort the DataFrame by the datetime column in descending order
-database = database.sort_values(by='Datetime', ascending=False)
-
-# Remove the 'Datetime' column as it was only used for sorting
-database = database.drop('Datetime', axis=1)
-
-# Fetch unique values from the column and sort them in descending order
-unique_values = sorted(database[column_to_search].unique(), reverse=True)
+# Display the DataFrame
+# st.dataframe(df)
 
 # Add a text input for column selection
-column_to_search = st.selectbox("Select a column to search:", unique_values)
+column_to_search = st.selectbox("Select a column to search:", database.columns[1:])
 
 # Add a button to trigger the search
 search_button = st.button("Search")
