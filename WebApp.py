@@ -91,7 +91,7 @@ if search_button:
     if latest_data:
         # Convert the latest data to a DataFrame and display it
         latest_df = pd.DataFrame(list(latest_data.items()), columns=["Time", "Value"])
-        st.subheader(f"Latest data for {selected_date}:")
+        st.subheader(f"Time Durations of Hand Wash Activity recorded for {selected_date}:")
         st.dataframe(latest_df)
     else:
         st.warning(f"No data found for {selected_date}")
