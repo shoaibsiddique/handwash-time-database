@@ -65,25 +65,21 @@ else:
 #st.title("Database of Handwashing Detection System")
 df = database.reset_index(drop='index')
 
-# Display the DataFrame
-# st.dataframe(df)
-
-# Add a text input for column selection
-column_to_search = st.selectbox("Select a column to search:", database.columns[1:])
-
 # Fetch the latest data from Firebase when the search button is clicked
 if st.button("Search"):
     # Get the selected date from the user
     selected_date = st.date_input("Select a date:", datetime.now().date())
+    
+    # Convert the selected date to the format used in the JSON keys
+    selected_date_str = selected_date.strftime("%d-%a:%B:%Y")
 
     # Fetch the latest data for the selected date from Firebase
-    # Assuming your Firebase structure includes a "Date" field
-    latest_data = db.reference("your_data_path").order_by_child("Date").equal_to(str(selected_date)).get()
+    latest_data = db.reference().child(selected_date_str).get()
 
     if latest_data:
         # Convert the latest data to a DataFrame and display it
-        latest_df = pd.DataFrame(list(latest_data.values()))
-        st.subheader(f"Search Results for {selected_date}:")
+        latest_df = pd.DataFrame(list(latest_data.items()), columns=["Time", "Value"])
+        st.subheader(f"Search Results for {selected_date_str}:")
         st.dataframe(latest_df)
     else:
-        st.warning(f"No data found for {selected_date}")
+        st.warning(f"No data found for {selected_date_str}")
