@@ -67,11 +67,8 @@ df = database.reset_index(drop='index')
 
 
 
-
-
-
 # Convert the date strings to datetime objects
-database['Datetime'] = pd.to_datetime(database.index, format='%d-%a:%B:%Y')
+database['Datetime'] = pd.to_datetime(database.index, format='%d-%a:%B:%Y', errors='coerce')
 
 # Sort the DataFrame by the datetime column in descending order
 database = database.sort_values(by='Datetime', ascending=False)
