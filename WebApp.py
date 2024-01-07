@@ -3,7 +3,8 @@ from databaseHWD import *
 import os
 import sys
 from firebase_admin import db
-
+import pandas as pd
+from datetime import datetime
 
 def restart_streamlit():
     os.execv(sys.executable, ['python'] + sys.argv)
@@ -34,6 +35,8 @@ get_session_state()
 # Get the current LED state
 current_led_state = get_led_state_from_firebase()
 
+st.title("Time Database of Handwashing Detection System-001")
+
 # Create a button to switch the LED state
 btn_lbl = 'Switch LED ON/OFF'
 button_clicked = st.button(btn_lbl)
@@ -59,30 +62,28 @@ else:
 #st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
 
-'''
-# Caution message in red
-st.title("Refresh Button")
-caution_message = """
-    <p style='color:red; font-size:20px;'>
-        <strong>Caution:</strong> You need to refresh the App every time you use it
-    </p>
-"""
-st.markdown(caution_message, unsafe_allow_html=True)
-
-if st.button("Refresh"):
-    st.write("Refreshing...")
-    restart_streamlit()
-'''
-
-
-st.title("Database of Handwashing Detection System")
+#st.title("Database of Handwashing Detection System")
 df = database.reset_index(drop='index')
 
-# Display the DataFrame
-# st.dataframe(df)
+
+
+
+
+
+# Convert the date strings to datetime objects
+database['Datetime'] = pd.to_datetime(database.index, format='%d-%a:%B:%Y')
+
+# Sort the DataFrame by the datetime column in descending order
+database = database.sort_values(by='Datetime', ascending=False)
+
+# Remove the 'Datetime' column as it was only used for sorting
+database = database.drop('Datetime', axis=1)
+
+# Fetch unique values from the column and sort them in descending order
+unique_values = sorted(database[column_to_search].unique(), reverse=True)
 
 # Add a text input for column selection
-column_to_search = st.selectbox("Select a column to search:", database.columns[1:])
+column_to_search = st.selectbox("Select a column to search:", unique_values)
 
 # Add a button to trigger the search
 search_button = st.button("Search")
