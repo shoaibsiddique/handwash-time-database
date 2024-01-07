@@ -64,9 +64,17 @@ else:
 
 #-------------------------------------------------------------------------
 
-# Get the list of unique dates from the JSON keys and reverse the order
-dates_list = sorted([datetime.strptime(date, "%d-%a:%B:%Y") for date in database.keys()], reverse=True)
-# Convert datetime objects back to strings for the dropdown
+# Get the list of unique dates from the JSON keys and sort them as datetime objects
+dates_list = []
+for date in database.keys():
+    if date != "Time":  # Skip the key named "Time"
+        try:
+            dates_list.append(datetime.strptime(date, "%d-%a:%B:%Y"))
+        except ValueError:
+            print(f"Error parsing date: {date}. Skipping.")
+
+# Sort the datetime objects and convert them back to strings for the dropdown
+dates_list = sorted(dates_list, reverse=True)
 dates_list_str = [date.strftime("%d-%a:%B:%Y") for date in dates_list]
 
 # Create the dropdown with sorted dates
