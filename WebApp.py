@@ -62,24 +62,17 @@ else:
 #st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
 
-#st.title("Database of Handwashing Detection System")
-df = database.reset_index(drop='index')
+# Get the list of unique dates from the JSON keys
+dates_list = sorted(database.keys())
+selected_date = st.selectbox("Select a date:", dates_list)
 
-# Fetch the latest data from Firebase when the search button is clicked
-if st.button("Search"):
-    # Get the selected date from the user
-    selected_date = st.date_input("Select a date:", datetime.now().date())
-    
-    # Convert the selected date to the format used in the JSON keys
-    selected_date_str = selected_date.strftime("%d-%a:%B:%Y")
+# Fetch the latest data for the selected date from Firebase
+latest_data = db.reference().child(selected_date).get()
 
-    # Fetch the latest data for the selected date from Firebase
-    latest_data = db.reference().child(selected_date_str).get()
-
-    if latest_data:
-        # Convert the latest data to a DataFrame and display it
-        latest_df = pd.DataFrame(list(latest_data.items()), columns=["Time", "Value"])
-        st.subheader(f"Search Results for {selected_date_str}:")
-        st.dataframe(latest_df)
-    else:
-        st.warning(f"No data found for {selected_date_str}")
+if latest_data:
+    # Convert the latest data to a DataFrame and display it
+    latest_df = pd.DataFrame(list(latest_data.items()), columns=["Time", "Value"])
+    st.subheader(f"Latest data for {selected_date}:")
+    st.dataframe(latest_df)
+else:
+    st.warning(f"No data found for {selected_date}")
