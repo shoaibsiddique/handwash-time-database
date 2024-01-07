@@ -62,7 +62,7 @@ else:
 #st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
 
-st.title("Database of Handwashing Detection System")
+#st.title("Database of Handwashing Detection System")
 df = database.reset_index(drop='index')
 
 # Display the DataFrame
