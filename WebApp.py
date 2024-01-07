@@ -48,8 +48,7 @@ else:
     # Only update the value if the button is clicked, else fetch the current state
     if button_clicked:
         send_data_to_firebase({key: 0})
-
-    #st.warning("The LED is currently OFF")
+        st.warning("The LED is currently OFF")
 
 # Display the current LED state fetched from Firebase
 # st.markdown(f'Current LED state from RPI: {current_led_state}')
