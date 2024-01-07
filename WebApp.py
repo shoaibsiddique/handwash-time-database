@@ -62,12 +62,17 @@ else:
 #st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
 
 
+# Add a button to trigger the search
+search_button = st.button("Search")
+
 # Get the list of unique dates from the JSON keys
 dates_list = sorted(database.keys())
 selected_date = st.selectbox("Select a date:", dates_list)
 
-# Fetch the latest data for the selected date from Firebase
-latest_data = db.reference().child(selected_date).get()
+# Perform search when the button is clicked
+if search_button:
+    # Fetch the latest data for the selected date from Firebase
+    latest_data = db.reference().child(selected_date).get()
 
 if latest_data:
     # Convert the latest data to a DataFrame and display it
