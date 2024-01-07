@@ -64,8 +64,8 @@ else:
 
 #-------------------------------------------------------------------------
 
-# Get the list of unique dates from the JSON keys
-dates_list = sorted(database.keys())
+# Get the list of unique dates from the JSON keys and reverse the order
+dates_list = sorted(database.keys(), reverse=True)
 selected_date = st.selectbox("Select a date:", dates_list)
 
 # Add a button to trigger the search
