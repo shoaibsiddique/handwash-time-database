@@ -9,10 +9,10 @@ from datetime import datetime
 def restart_streamlit():
     os.execv(sys.executable, ['python'] + sys.argv)
 
-# Function to create or get session state
+# Function to get or create session state
 def get_session_state():
     if 'button_clicked' not in st.session_state:
-        st.session_state.button_clicked = False
+        st.session_state.button_clicked = get_led_state_from_firebase() == 1
 
 # Function to get the current LED state from Firebase
 def get_led_state_from_firebase():
@@ -23,60 +23,24 @@ def get_led_state_from_firebase():
 def send_data_to_firebase(data):
     db.reference().update(data)
 
-# Function to create or get session state
-def get_session_state():
-    if 'button_clicked' not in st.session_state:
-        st.session_state.button_clicked = get_led_state_from_firebase() == 1
-
+# Function to get the list of unique dates from the JSON keys and sort them as datetime objects
+def get_dates_list():
+    dates_list = []
+    for date in database.keys():
+        if date != "Time":  # Skip the key named "Time"
+            try:
+                dates_list.append(datetime.strptime(date, "%d-%a:%B:%Y"))
+            except ValueError:
+                st.error(f"Error parsing date: {date}. Skipping.")
+    return sorted(dates_list, reverse=True)
 
 # Get or create session state
 get_session_state()
 
-# Get the current LED state
-current_led_state = get_led_state_from_firebase()
+# Get the list of unique dates
+dates_list = get_dates_list()
 
-st.title("Time Database of Handwashing Detection System-001")
-
-# Create a button to switch the LED state
-btn_lbl = 'Switch LED ON/OFF'
-button_clicked = st.button(btn_lbl)
-
-key = "LED_VAL"
-# Update session state only if the button is clicked
-if button_clicked:
-    st.session_state.button_clicked = not st.session_state.button_clicked
-
-# Display a message based on the button state
-if st.session_state.button_clicked:
-    send_data_to_firebase({key: 1})
-    st.success("LED feature is enabled")
-    #st.markdown('<p style="color: green;">The LED is currently ON</p>', unsafe_allow_html=True)
-else:
-    # Only update the value if the button is clicked, else fetch the current state
-    if button_clicked:
-        send_data_to_firebase({key: 0})
-
-    st.warning("LED feature is disabled")
-    #st.markdown('<p style="color: red;">The LED is currently OFF</p>', unsafe_allow_html=True)
-
-
-# Display the current LED state fetched from Firebase
-#st.markdown(f'<p>Current LED state from RPI: {current_led_state}</p>', unsafe_allow_html=True)
-
-
-# -------------------------------------------------------------------------
-
-# Get the list of unique dates from the JSON keys and sort them as datetime objects
-dates_list = []
-for date in database.keys():
-    if date != "Time":  # Skip the key named "Time"
-        try:
-            dates_list.append(datetime.strptime(date, "%d-%a:%B:%Y"))
-        except ValueError:
-            st.error(f"Error parsing date: {date}. Skipping.")
-
-# Sort the datetime objects and convert them back to strings for the dropdown
-dates_list = sorted(dates_list, reverse=True)
+# Convert the sorted dates back to strings for the dropdown
 dates_list_str = [date.strftime("%d-%a:%B:%Y") for date in dates_list]
 
 # Create the dropdown with sorted dates
@@ -89,7 +53,7 @@ search_button = st.button("Search")
 if search_button:
     # Fetch the latest data for the selected date from Firebase
     latest_data = db.reference().child(selected_date).get()
-    
+
     if latest_data:
         # Convert the latest data to a DataFrame and display it
         latest_df = pd.DataFrame(list(latest_data.items()), columns=["Time", "Value"])
